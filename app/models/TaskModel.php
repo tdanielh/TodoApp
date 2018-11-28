@@ -9,6 +9,7 @@
 namespace App\Models;
 
 use Simplon\Mysql\Crud\CrudModel;
+use Slim\Collection;
 
 class TaskModel extends CrudModel
 {
@@ -27,6 +28,8 @@ class TaskModel extends CrudModel
 	protected $created;
 	protected $status;
 	protected $user_id;
+
+	public $user;
 
 	/**
 	 * @return mixed
@@ -133,6 +136,11 @@ class TaskModel extends CrudModel
 	public function setUserId($user_id)
 	{
 		$this->user_id = $user_id;
+		return $this;
+	}
+
+	public function setUser(UserModel $user){
+		$this->user = $user;
 		return $this;
 	}
 }

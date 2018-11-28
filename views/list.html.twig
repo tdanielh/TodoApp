@@ -1,0 +1,39 @@
+{% extends "./base.html.twig" %}
+{% block title %}{% endblock %}
+{% block head %}
+	{{ parent() }}
+	<style type="text/css">
+		.important { color: #336699; }
+	</style>
+{% endblock %}
+{% block style %}
+	{{ parent() }}
+{% endblock %}
+{% block content %}
+	{% for task in tasks %}
+		{% include 'task/task.html.twig' %}
+	{% endfor %}
+{% endblock %}
+{% block script %}
+	{{ parent() }}
+	<script>
+        jQuery('form').on('submit', function(e){
+            $form = $(this);
+            $action = $form.attr('action');
+            $list_id = $form.data('listid');
+            $user_id = $form.data('userid');
+            data = $form.serialize()+'&user_id='+$user_id+'&list_id='+$list_id;
+            e.preventDefault();
+            jQuery.ajax({
+                type: "POST",
+                url: $action,
+                data: data,
+                success: function(data){
+                    alert('success');
+                    //jQuery('#frontPosts').prepend(data);
+                }
+            });
+            return false;
+        });
+	</script>
+{% endblock %}

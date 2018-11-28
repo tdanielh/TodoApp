@@ -1,0 +1,5 @@
+<form action="{{ path_for('task.create') }}" method="post" id="createTask" data-listid="{{ list.getId() }}" data-userid="{{ user.getId() }}">
+	<input type="text" placeholder="Todo list title" name="title" id="title">
+	<textarea name="description" id="description" cols="30" rows="10"></textarea>
+	<input type="submit" value="create list">
+</form>

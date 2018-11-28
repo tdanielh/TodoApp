@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google Analytics -->
+<script>
+
+</script>
+<!-- End Google Analytics -->
+    {% block head %}
+        <title>{% block title %}Todo App{% endblock %}</title>
+    {% endblock %}
+    {% block style %}
+        <script src="{{ base_url() }}/node_modules/jquery/dist/jquery.js"></script>
+    <style>
+
+    </style>
+    {% endblock %}
+</head>
+<body>
+
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+{% block script %}
+    <script>
+
+    </script>
+{% endblock %}
+</body>
+</html>

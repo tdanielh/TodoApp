@@ -8,6 +8,8 @@
 
 namespace App\Stores;
 
+use App\Models\ListModel;
+use App\Models\TaskModel;
 use App\Models\UserModel;
 use App\traits\Crud;
 use Simplon\Mysql\Crud\CrudModelInterface;
@@ -27,7 +29,7 @@ class UsersStore extends CrudStore
 	 */
 	public function getTableName(): string
 	{
-		return 'users';
+		return UserModel::TABLENAME;
 	}
 
 	/**
@@ -36,5 +38,30 @@ class UsersStore extends CrudStore
 	public function getModel()
 	{
 		return new UserModel();
+	}
+
+	public function getUserFromListId($list_id){
+		$query = 'SELECT * 
+				  FROM '.$this->getTableName().'
+				  LEFT JOIN list_user
+				  ON list_user.user_id = :list_id
+				  LIMIT 1';
+		if($result = $this->getCrudManager()->getMysql()->fetchRow($query, ['list_id' => $list_id]))
+			return (new UserModel())->fromArray($result);
+
+		return [];
+	}
+
+	public function usersFromTasks(Collection $tasks){
+		$taskIds = [];
+		foreach($tasks->all() as $task){
+			$taskIds[] = $task->getId();
+		}
+		$query = 'SELECT * 
+				  FROM '.$this->getTableName().'
+				  LEFT JOIN '.TaskModel::TABLENAME.'
+				  ON '.TaskModel::TABLENAME.'.'.TaskModel::COLUMN_user_id.'
+				  WHERE '.TaskModel::TABLENAME.'.'.TaskMOdel::COLUMN_user_id.' IN('.$taskIds.')';
+		return $query;
 	}
 }

@@ -15,6 +15,7 @@ use Simplon\Mysql\Crud\CrudModelInterface;
 use Simplon\Mysql\Crud\CrudStore;
 use Simplon\Mysql\Mysql;
 use Simplon\Mysql\MysqlException;
+use Slim\Collection;
 
 class ListsStore extends CrudStore
 {
@@ -26,7 +27,7 @@ class ListsStore extends CrudStore
 
 	public function getTableName(): string
 	{
-		return 'lists';
+		return ListModel::TABLENAME;
 	}
 
 	/**
@@ -49,5 +50,33 @@ class ListsStore extends CrudStore
 		var_dump($query);
 
 		return $id;
+	}
+
+	public function listsFromUserId($userId){
+		$query = 'SELECT * 
+				  FROM '. $this->getTableName().'
+				  LEFT JOIN list_user
+				  ON list_user.list_id = '.$this->getTableName().'.'.ListModel::COLUMN_USER_ID.'
+				  WHERE list_user.user_id = :user_id';
+
+		$lists = new Collection();
+		if($results = $this->getCrudManager()->getMysql()->fetchRowMany($query, ['user_id' => $userId])){
+			foreach($results as $result){
+				$list = (new ListModel())->fromArray($result);
+				$lists->set($list->getId(), $list);
+			}
+			return $lists;
+		}
+		return [];
+	}
+
+	public function listFromListId($listId){
+		$query = 'SELECT *
+				  FROM '.$this->getTableName().'
+				  WHERE '.$this->getTableName().'.'.ListModel::COLUMN_ID.' = :list_id';
+
+		if($result = $this->getCrudManager()->getMysql()->fetchRow($query, ['list_id' => $listId]))
+			return (new ListModel())->fromArray($result);
+		return [];
 	}
 }

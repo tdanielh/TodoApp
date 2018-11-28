@@ -1,0 +1,39 @@
+{% extends "./base.html.twig" %}
+{% block title %}{% endblock %}
+{% block head %}
+	{{ parent() }}
+	<style type="text/css">
+		.important { color: #336699; }
+	</style>
+{% endblock %}
+{% block style %}
+	{{ parent() }}
+{% endblock %}
+{% block content %}
+	<form action="{{ path_for('list.create') }}" method="post" id="createList" data-userid="{{ user_id }}">
+		<input type="text" placeholder="Todo list title" name="title" id="title">
+		<input type="submit" value="create list">
+	</form>
+{% endblock %}
+{% block script %}
+	{{ parent() }}
+	<script>
+        jQuery('form').on('submit', function(e){
+            $form = $(this);
+            $action = $form.attr('action');
+            $user_id = $form.data('userid');
+            data = $form.serialize()+'&user_id='+$user_id;
+            e.preventDefault();
+            jQuery.ajax({
+                type: "POST",
+                url: $action,
+                data: data,
+                success: function(data){
+                    alert('success');
+                    //jQuery('#frontPosts').prepend(data);
+                }
+            });
+            return false;
+        });
+	</script>
+{% endblock %}

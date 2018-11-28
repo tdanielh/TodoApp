@@ -29,7 +29,7 @@ class TasksStore extends CrudStore
 	 */
 	public function getTableName(): string
 	{
-		return 'tasks';
+		return TaskModel::TABLENAME;
 	}
 
 	/**
@@ -41,19 +41,42 @@ class TasksStore extends CrudStore
 	}
 
 	public function tasksFromListId($id){
-		$query = 'SELECT *
+		$listQuery = 'SELECT *
 				  FROM '. $this->getTableName().'
 				  LEFT JOIN list_task
 				  ON list_task.task_id = '.$this->getTableName().'.'.ListModel::COLUMN_ID.'
 				  WHERE list_task.list_id = :id';
 		$tasks = new Collection();
-
-		if($results = $this->getCrudManager()->getMysql()->fetchRowMany($query, ['id' => $id])){
+		$results = $this->getCrudManager()->getMysql()->fetchRowMany($listQuery, ['id' => $id]);
+		if($results){
 			foreach($results as $result){
 				$task = (new TaskModel())->fromArray($result);
 				$tasks->set($task->getId(), $task);
 			}
-			return $tasks;
 		}
+
+		$userIds = [];
+		foreach($tasks->all() as $task){
+			$userId = $task->getUserid();
+			$usersArr[$userId] = $userId;
+		}
+		var_dump($usersArr);
+		$userIds = join(',',  $usersArr);
+		$userQuery = 'SELECT * FROM users WHERE id IN(:user_ids)';
+		$users = $this->getCrudManager()->getMysql()->fetchRowMany($userQuery, ['user_ids' => $userIds]);
+
+		foreach($users as $user){
+			$usersArr[$user['id']] = $user;
+		}
+
+		foreach($tasks as $task){
+			if(isset($usersArr[$task->getUserId()])){
+				$user = (new UserModel())->fromArray($usersArr[$task->getUserId()]);
+				$task->setUser($user);
+			}
+		}
+		return $tasks;
 	}
+
+
 }
