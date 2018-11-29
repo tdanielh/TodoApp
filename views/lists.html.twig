@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+{% block title %}{% endblock %}
+{% block head %}
+	{{ parent() }}
+	<style type="text/css">
+		.important { color: #336699; }
+	</style>
+{% endblock %}
+{% block style %}
+	<script src="{{ base_url() }}/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	{{ parent() }}
+{% endblock %}
+{% block content %}
+	{% include 'modals/confirm-delete.html.twig' %}
+	<div class="container">
+		<div class="row ">
+			<span class="h1">Lists</span>
+		</div>
+		<div class="row">
+			{% include 'list/new.html.twig' %}
+		</div>
+
+		<div id="list">
+			{% if lists is empty %}
+				{% include 'list/empty.html.twig' %}
+			{% else %}
+				{% for list in lists %}
+					{% include 'list/list.html.twig' %}
+				{% endfor %}
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
+{% block script %}
+	{{ parent() }}
+	<script>
+
+	</script>
+{% endblock %}

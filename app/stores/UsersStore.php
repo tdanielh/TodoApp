@@ -64,4 +64,6 @@ class UsersStore extends CrudStore
 				  WHERE '.TaskModel::TABLENAME.'.'.TaskMOdel::COLUMN_user_id.' IN('.$taskIds.')';
 		return $query;
 	}
+
+
 }

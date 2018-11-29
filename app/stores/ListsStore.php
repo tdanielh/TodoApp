@@ -9,12 +9,9 @@
 namespace App\Stores;
 
 use App\Models\ListModel;
-use App\Models\UserModel;
 use App\traits\Crud;
 use Simplon\Mysql\Crud\CrudModelInterface;
 use Simplon\Mysql\Crud\CrudStore;
-use Simplon\Mysql\Mysql;
-use Simplon\Mysql\MysqlException;
 use Slim\Collection;
 
 class ListsStore extends CrudStore
@@ -38,26 +35,11 @@ class ListsStore extends CrudStore
 		return new ListModel();
 	}
 
-	public function lists($id){
-		$query = 'SELECT * 
-				  FROM ' .$this->getTableName().' 
-				  LEFT JOIN list_user 
-				  ON list_user.user_id = '.$this->getTableName().'.'.ListModel::COLUMN_USER_ID.'
-				  LEFT JOIN '.UserModel::TABLENAME.'
-				  ON users.'.UserModel::COLUMN_ID.'
-				  WHERE  '.$this->getTableName().'.'.ListModel::COLUMN_USER_ID.' = '.$id;
-
-		var_dump($query);
-
-		return $id;
-	}
-
 	public function listsFromUserId($userId){
 		$query = 'SELECT * 
 				  FROM '. $this->getTableName().'
-				  LEFT JOIN list_user
-				  ON list_user.list_id = '.$this->getTableName().'.'.ListModel::COLUMN_USER_ID.'
-				  WHERE list_user.user_id = :user_id';
+				  WHERE '.$this->getTableName().'.'.ListModel::COLUMN_USER_ID.' = :user_id
+				  ORDER BY id desc';
 
 		$lists = new Collection();
 		if($results = $this->getCrudManager()->getMysql()->fetchRowMany($query, ['user_id' => $userId])){

@@ -8,9 +8,11 @@
 <!-- End Google Analytics -->
     {% block head %}
         <title>{% block title %}Todo App{% endblock %}</title>
+        <script src="{{ base_url() }}/node_modules/jquery/dist/jquery.js"></script>
     {% endblock %}
     {% block style %}
-        <script src="{{ base_url() }}/node_modules/jquery/dist/jquery.js"></script>
+        <link rel="stylesheet" href="{{ base_url() }}/node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ base_url() }}/node_modules/font-awesome/css/font-awesome.min.css">
     <style>
 
     </style>
@@ -18,13 +20,33 @@
 </head>
 <body>
 
-<div id="content">
+<div id="content" class="container">
+    <!-- Left Side Of Navbar -->
+    <nav class="navbar">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav mr-0 mr-auto">
+                <li class="nav-item align-bottom">
+                    <a href="{{ path_for('lists') }}" class="nav-link">Lists</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav ml-auto mr-0 mt-2 mt-lg-0">
+                <li class="nav-item align-bottom">
+                    <a class="nav-link" href="#" aria-expanded="false">
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
     {% block content %}{% endblock %}
 </div>
 {% block script %}
     <script>
 
     </script>
+    <script src="{{ base_url() }}/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{{ base_url() }}/scripts/main.js"></script>
+    <link rel="stylesheet" href="{{ base_url() }}/node_modules/bootstrap/dist/css/bootstrap.min.css">
 {% endblock %}
 </body>
 </html>

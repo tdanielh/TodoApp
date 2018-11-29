@@ -143,4 +143,11 @@ class TaskModel extends CrudModel
 		$this->user = $user;
 		return $this;
 	}
+
+	public function toArray(bool $snakeCase = true): array
+	{
+		$array = parent::toArray($snakeCase);
+		unset($array['user']);
+		return $array;
+	}
 }

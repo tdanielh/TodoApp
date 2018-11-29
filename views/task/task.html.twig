@@ -1,4 +1,21 @@
-<div>
-	<div>{{ task.description }}</div>
-	<div>Created by <span>{{ task.user.name }}</span>, <span>{{ task.created }}</span></div>
+<div class="row py-2" data-itemid="{{ task.id }}"  data-waiting="fa-spinner fa-pulse">
+	<div class="col-11 justify-content-between">
+				<div class="card">
+					<div class="card-header">
+						<div class="float-left">
+							Created by <span>{{ task.user.name }}</span>, <span>{{ task.created }}</span>
+						</div>
+						<div class="float-right">
+							<i class="fa fa-trash fa-2x" data-trash="fa-trash" data-action="delete" data-item="task"  data-toggle="modal" data-target="#confirm-delete"></i>
+						</div>
+					</div>
+					<div class="card-body">
+						{{ task.description }}
+					</div>
+				</div>
+
+	</div>
+	<div class="col-1 align-self-center">
+		<i class="fa {{ (task.status == 'todo') ? 'fa-square-o' : 'fa-check-square' }} fa-2x task_check" data-path="{{ path_for('task.update.status') }}" data-done="fa-check-square" data-todo="fa-square-o" data-action="status"></i>
+	</div>
 </div>

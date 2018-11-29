@@ -1,0 +1,13 @@
+<div class="row py-2" data-itemid="{{ list.id }}"  data-waiting="fa-spinner fa-pulse">
+	<div class="col-11 justify-content-between">
+		<div class="card">
+			<div class="card-body">
+				<a href="{{ path_for('list.id', {'list_id': list.id}) }}">{{ list.name }}</a>
+			</div>
+		</div>
+
+	</div>
+	<div class="col-1 align-self-center">
+		<i class="fa fa-trash fa-2x task_check" data-toggle="modal" data-target="#confirm-delete" data-path="{{ path_for('list.delete') }}" data-item="list"></i>
+	</div>
+</div>
