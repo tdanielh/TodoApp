@@ -6,7 +6,7 @@
  * Time: 20:29
  */
 
-namespace App\Stores;
+namespace App\stores;
 
 use App\Models\UserModel;
 use App\traits\Crud;
