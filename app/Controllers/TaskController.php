@@ -6,7 +6,6 @@ use App\Models\TaskModel;
 use App\Stores\UsersStore;
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-
 use App\Interfaces\Controller as iController;
 
 class TaskController extends Controller implements iController

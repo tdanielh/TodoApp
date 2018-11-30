@@ -8,20 +8,10 @@
 
 namespace App\Stores;
 
-use App\Models\ListModel;
 use App\Models\TaskModel;
-use App\Models\UserModel;
 use App\traits\Crud;
 use Simplon\Mysql\Crud\CrudModelInterface;
 use Simplon\Mysql\Crud\CrudStore;
-use Simplon\Mysql\Mysql;
-use Simplon\Mysql\MysqlException;
-use Simplon\Mysql\QueryBuilder\CreateQueryBuilder;
-use Simplon\Mysql\QueryBuilder\DeleteQueryBuilder;
-use Simplon\Mysql\QueryBuilder\ReadQueryBuilder;
-use Simplon\Mysql\QueryBuilder\UpdateQueryBuilder;
-use Slim\Collection;
-use Slim\Http\Request;
 
 class TasksStore extends CrudStore
 {
