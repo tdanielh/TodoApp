@@ -12,6 +12,7 @@ use App\Models\TaskModel;
 use App\traits\Crud;
 use Simplon\Mysql\Crud\CrudModelInterface;
 use Simplon\Mysql\Crud\CrudStore;
+use Slim\Collection;
 
 class TasksStore extends CrudStore
 {
