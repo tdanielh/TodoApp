@@ -44,39 +44,18 @@ class TasksStore extends CrudStore
 	}
 
 	public function tasksFromListId($id){
-		$listQuery = 'SELECT *
+		$tasksQuery = 'SELECT *
 				  FROM '. $this->getTableName().'
-				  LEFT JOIN list_task
-				  ON list_task.task_id = '.$this->getTableName().'.'.ListModel::COLUMN_ID.'
-				  WHERE list_task.list_id = :id
+				  WHERE '. $this->getTableName().'.'.TaskModel::COLUMN_LIST_ID.' = :id
 				  ORDER BY '.$this->getTableName().'.'.TaskModel::COLUMN_ID.' DESC';
 		$tasks = new Collection();
-		$results = $this->getCrudManager()->getMysql()->fetchRowMany($listQuery, ['id' => $id]);
-		if($results){
-			foreach($results as $result){
-				$task = (new TaskModel())->fromArray($result);
+		$taskresults = $this->getCrudManager()->getMysql()->fetchRowMany($tasksQuery, ['id' => $id]);
+		if($taskresults){
+			foreach($taskresults as $taskresult){
+				$task = (new TaskModel())->fromArray($taskresult);
 				$tasks->set($task->getId(), $task);
 			}
 
-			$userIds = [];
-			foreach($tasks->all() as $task){
-				$userId = $task->getUserid();
-				$usersArr[$userId] = $userId;
-			}
-			$userIds = join(',',  $usersArr);
-			$userQuery = 'SELECT * FROM users WHERE id IN(:user_ids)';
-			$users = $this->getCrudManager()->getMysql()->fetchRowMany($userQuery, ['user_ids' => $userIds]);
-
-			foreach($users as $user){
-				$usersArr[$user['id']] = $user;
-			}
-
-			foreach($tasks as $task){
-				if(isset($usersArr[$task->getUserId()])){
-					$user = (new UserModel())->fromArray($usersArr[$task->getUserId()]);
-					$task->setUser($user);
-				}
-			}
 			return $tasks;
 		}
 		return [];
@@ -90,30 +69,6 @@ class TasksStore extends CrudStore
 		if($result)
 			return (new TaskModel())->fromArray($result);
 		return [];
-	}
-
-	public function numbersOfTasksInLIstFromListId($listid){
-		//TODO
-		$taskQuery = 'SELECT COUNT(*) as tasks 
-					  FROM '.$this->getTableName().'
-					  LEFT JOIN list_task
-					  ON list_task.task_id = '.$this->getTableName().'.'.TaskModel::COLUMN_ID.'
-					  WHERE list_task.list_id = :$listid
-					  GROUP BY list_task.list_id
-		';
-		var_dump($taskQuery);
-	}
-
-	//Overskriver create metode, da jeg vil bruge metoden til at linke mellem list og task tablerne
-	public function create(CreateQueryBuilder $builder,ListModel $listModel = null)
-	{
-		$model = $this->crudCreate($builder);
-
-		if($model && $listModel){
-			$this->getCrudManager()->getMysql()->insert('list_task', ['list_id' => $listModel->getId(), 'task_id' => $model->getId()]);
-		}
-
-		return $model;
 	}
 
 }

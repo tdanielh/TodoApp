@@ -3,18 +3,17 @@ jQuery('form#createTask').on('submit', function(e){
     $form = $(this);
     $action = $form.attr('action');
     $list_id = $form.data('listid');
-    $user_id = $form.data('userid');
     $form.find('.error').html('');
 
     $form.find('textarea').removeClass('is-invalid');
-    data = $form.serialize()+'&user_id='+$user_id+'&list_id='+$list_id;
+    data = $form.serialize()+'&list_id='+$list_id;
     jQuery.ajax({
         type: "POST",
         url: $action,
         data: data,
         success: function(data){
-                jQuery('#tasks .no_tasks').remove();
-                jQuery('#tasks').prepend(data);
+                jQuery('#list .no_tasks').remove();
+                jQuery('#list').prepend(data);
                 $form.find('#description').val('');
         },
         error: function(data){
@@ -53,12 +52,11 @@ jQuery(document).on('click', '.task_check', function(e){
 });
 
 $('#confirm-delete').on('click', '.btn-ok', function(e) {
-    $modalDiv = $(e.delegateTarget);
-    item_id = $(this).data('itemid');
-    item = $(this).data('item');
-    path = $(this).data('path')+item+'/';
-    console.log(path);
-    $.ajax({url: path, data: {item_id: item_id}, type: 'DELETE'})
+    $modalDiv = jQuery(e.delegateTarget);
+    item_id = jQuery(this).data('itemid');
+    item = jQuery(this).data('item');
+    path = jQuery(this).data('path')+item+'/';
+    jQuery.ajax({url: path, data: {item_id: item_id}, type: 'DELETE'});
     $modalDiv.addClass('loading');
     setTimeout(function() {
         $modalDiv.modal('hide').removeClass('loading');
@@ -80,17 +78,17 @@ jQuery('#confirm-delete').on('show.bs.modal', function(e) {
 
 
 jQuery('form#createList').on('submit', function(e){
-    $form = $(this);
-    $action = $form.attr('action');
+    $form = jQuery(this);
+    action = $form.attr('action');
     $user_id = $form.data('userid');
     data = $form.serialize()+'&user_id='+$user_id;
     e.preventDefault();
     jQuery.ajax({
         type: "POST",
-        url: $action,
+        url: action,
         data: data,
         success: function(data){
-            jQuery('#lists').prepend(data);
+            jQuery('#list').prepend(data);
         },
         error: function(data){
             $form.find('input').addClass('is-invalid');
@@ -98,4 +96,36 @@ jQuery('form#createList').on('submit', function(e){
         }
     });
     return false;
+});
+
+jQuery('form#login').on('submit', function(e){
+    e.preventDefault();
+    $form = jQuery(this);
+    data = $form.serialize();
+    action = $form.attr('action');
+
+    jQuery.ajax({
+        type: "POST",
+        url: action,
+        data: data,
+        success: function(){
+            location.reload();
+        },
+        error: function(data){
+            $form.find('input').addClass('is-invalid');
+            $form.find('.error').html(data.responseJSON.message);
+        }
+    });
+});
+
+jQuery('#logout').on('click', function(e){
+    e.preventDefault();
+    path = jQuery(this).data('path');
+    jQuery.ajax({
+        url: path,
+        type: 'POST',
+        success: function(){
+            location.reload();
+        }
+    });
 });

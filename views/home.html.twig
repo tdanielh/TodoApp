@@ -1,0 +1,57 @@
+{% extends "base.html.twig" %}
+{% block title %}{% endblock %}
+{% block head %}
+	{{ parent() }}
+	<style type="text/css">
+		.important { color: #336699; }
+	</style>
+{% endblock %}
+{% block style %}
+	<script src="{{ base_url() }}/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	{{ parent() }}
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-header">Login</div>
+
+					<div class="card-body">
+						<form method="POST" action="{{ path_for('login') }}" id="login">
+							<div class="form-group row">
+								<label for="email" class="col-sm-4 col-form-label text-md-right">E-Mail Address</label>
+
+								<div class="col-md-6">
+									<input id="email" type="email" class="form-control" name="email"  placeholder="Email" autofocus>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
+
+								<div class="col-md-6">
+									<input id="password" type="password" class="form-control" name="password" placeholder="Password">
+								</div>
+							</div>
+
+							<div class="form-group row mb-0">
+								<div class="col-md-8 offset-md-4">
+									<button type="submit" class="btn btn-primary">
+										Login
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block script %}
+	{{ parent() }}
+	<script>
+
+	</script>
+{% endblock %}

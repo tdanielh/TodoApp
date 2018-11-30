@@ -40,30 +40,25 @@ class UsersStore extends CrudStore
 		return new UserModel();
 	}
 
-	public function getUserFromListId($list_id){
+	public function userByEmail($email){
 		$query = 'SELECT * 
 				  FROM '.$this->getTableName().'
-				  LEFT JOIN list_user
-				  ON list_user.user_id = :list_id
-				  LIMIT 1';
-		if($result = $this->getCrudManager()->getMysql()->fetchRow($query, ['list_id' => $list_id]))
+				  WHERE '.UserModel::COLUMN_EMAIL.' = :email';
+
+		if($result = $this->getCrudManager()->getMysql()->fetchRow($query,['email' => $email]))
 			return (new UserModel())->fromArray($result);
 
 		return [];
 	}
 
-	public function usersFromTasks(Collection $tasks){
-		$taskIds = [];
-		foreach($tasks->all() as $task){
-			$taskIds[] = $task->getId();
-		}
-		$query = 'SELECT * 
+	public function userById($id){
+		$query = 'SELECT *
 				  FROM '.$this->getTableName().'
-				  LEFT JOIN '.TaskModel::TABLENAME.'
-				  ON '.TaskModel::TABLENAME.'.'.TaskModel::COLUMN_user_id.'
-				  WHERE '.TaskModel::TABLENAME.'.'.TaskMOdel::COLUMN_user_id.' IN('.$taskIds.')';
-		return $query;
+				  WHERE '.UserModel::COLUMN_ID.' = :id';
+
+		if($result = $this->getCrudManager()->getMysql()->fetchRow($query,['id' => $id]))
+			return (new UserModel())->fromArray($result);
+
+		return [];
 	}
-
-
 }

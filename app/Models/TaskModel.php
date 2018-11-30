@@ -16,20 +16,18 @@ class TaskModel extends CrudModel
 	const TABLENAME = 'tasks';
 
 	const COLUMN_ID = 'id';
-	const COLUMN_title = 'title';
-	const COLUMN_description = 'description';
-	const COLUMN_created = 'created';
-	const COLUMN_status = 'status';
-	const COLUMN_user_id = 'user_id';
+	const COLUMN_TITLE = 'title';
+	const COLUMN_DESCRIPTION = 'description';
+	const COLUMN_CREATED = 'created';
+	const COLUMN_STATUS = 'status';
+	const COLUMN_LIST_ID = 'list_id';
 
 	protected $id;
 	protected $title;
 	protected $description;
 	protected $created;
 	protected $status;
-	protected $user_id;
-
-	public $user;
+	protected $list_id;
 
 	/**
 	 * @return mixed
@@ -121,33 +119,21 @@ class TaskModel extends CrudModel
 		return $this;
 	}
 
+
 	/**
 	 * @return mixed
 	 */
-	public function getUserId()
+	public function getListId()
 	{
-		return $this->user_id;
+		return $this->list_id;
 	}
 
 	/**
-	 * @param mixed $user_id
-	 * @return TaskModel
+	 * @param mixed $list_id
 	 */
-	public function setUserId($user_id)
+	public function setListId($list_id)
 	{
-		$this->user_id = $user_id;
+		$this->list_id = $list_id;
 		return $this;
-	}
-
-	public function setUser(UserModel $user){
-		$this->user = $user;
-		return $this;
-	}
-
-	public function toArray(bool $snakeCase = true): array
-	{
-		$array = parent::toArray($snakeCase);
-		unset($array['user']);
-		return $array;
 	}
 }

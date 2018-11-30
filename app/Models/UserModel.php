@@ -17,10 +17,30 @@ class UserModel extends CrudModel
 	const COLUMN_ID = 'id';
 	const COLUMN_EMAIL = 'email';
 	const COLUMN_PASSWORD = 'password';
+	const COLUMN_NAME = 'name';
 
 	protected $id;
 	protected $email;
 	protected $password;
+	protected $name;
+
+	/**
+	 * @return mixed
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @param mixed $name
+	 * @return UserModel
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
+		return $this;
+	}
 
 	/**
 	 * @return mixed

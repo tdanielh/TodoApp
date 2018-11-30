@@ -1,7 +1,7 @@
 
-		<div class="container mx-4 w-100">
+		<div class="container">
 			<div class="row">
-				<form action="{{ path_for('task.create') }}" method="post" id="createTask" data-listid="{{ list.getId() }}" data-userid="{{ user.getId() }}" class="col-12">
+				<form action="{{ path_for('task.create') }}" method="post" id="createTask" data-listid="{{ list.getId() }}" class="col-12">
 					<div class="form-group w-100">
 						<textarea name="description" id="description" class="form-control px-3" placeholder="New task"></textarea>
 					</div>

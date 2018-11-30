@@ -21,23 +21,25 @@
 <body>
 
 <div id="content" class="container">
-    <!-- Left Side Of Navbar -->
+    {% if auth.check %}
     <nav class="navbar">
         <div class="container-fluid">
             <ul class="nav navbar-nav mr-0 mr-auto">
                 <li class="nav-item align-bottom">
-                    <a href="{{ path_for('lists') }}" class="nav-link">Lists</a>
+                    <a href="{{ path_for('index') }}" class="nav-link">Lists</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav ml-auto mr-0 mt-2 mt-lg-0">
                 <li class="nav-item align-bottom">
-                    <a class="nav-link" href="#" aria-expanded="false">
+                    <a class="nav-link" href="#" data-path="{{ path_for('logout') }}" aria-expanded="false" id="logout">
                         Logout
                     </a>
                 </li>
             </ul>
         </div>
     </nav>
+    {% endif %}
+
     {% block content %}{% endblock %}
 </div>
 {% block script %}

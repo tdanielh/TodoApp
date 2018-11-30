@@ -15,13 +15,13 @@ $container['view'] = function ($container) {
 		$container['router'],
 		$container['request']->getUri()
 	));
+	$view->getEnvironment()->addGlobal('auth', $container->auth);
 	$view->addExtension(new Twig_Extension_Debug());
-
 	return $view;
 };
 
 $container['PDOConnector'] = function($container){
-	$connector = new \Simplon\Mysql\PDOConnector('localhost', 'root', '', 'todoapp');
+	$connector = new \Simplon\Mysql\PDOConnector(getenv('localhost'), 'root', '', 'todoapp');
 
 	return $connector;
 };
@@ -33,6 +33,18 @@ $container['sqlManager'] = function($container){
 
 $container['HomeController'] = function($container){
 	return new \App\Controllers\HomeController($container);
+};
+
+$container['ListController'] = function($container){
+	return new \App\Controllers\ListController($container);
+};
+
+$container['TaskController'] = function($container){
+	return new \App\Controllers\TaskController($container);
+};
+
+$container['auth'] = function ($container) {
+	return new App\Auth\Auth($container);
 };
 
 require __DIR__ . '/routes/Web.php';
