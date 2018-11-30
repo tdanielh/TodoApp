@@ -13,7 +13,7 @@ class ListController extends Controller implements iController
 		parent::__construct($container);
 		if(!$this->auth->check())
 		{
-			header('Location: /main/');
+			header('Location: /');
 			die();
 		}
 	}
