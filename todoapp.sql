@@ -35,6 +35,6 @@ ALTER TABLE `lists`
 	
 	
 INSERT INTO `users` (`id`, `name`, `password`, `email`) VALUES
-(1, 'Kasper', '$2y$10$eZ3SDxLnmIqSP4YF5cAKi.woj9UmjgxdZ/sU1x1F5v2ei9KUgwpmS', 'kasper@test.com'),
-(2, 'Jesper', '$2y$10$eZ3SDxLnmIqSP4YF5cAKi.woj9UmjgxdZ/sU1x1F5v2ei9KUgwpmS', 'jesper@test.com'),
-(3, 'Jonatan', '$2y$10$eZ3SDxLnmIqSP4YF5cAKi.woj9UmjgxdZ/sU1x1F5v2ei9KUgwpmS', 'jonatan@test.com');
+(1, 'Kasper', '$2y$10$KkEgonAT9pZ5NMIsLYTQjejqCAlIvG9UYLa/XeHPP.U/G6DpH7Z3i', 'kasper@test.com'),
+(2, 'Jesper', '$2y$10$KkEgonAT9pZ5NMIsLYTQjejqCAlIvG9UYLa/XeHPP.U/G6DpH7Z3i', 'jesper@test.com'),
+(3, 'Jonatan', '$2y$10$KkEgonAT9pZ5NMIsLYTQjejqCAlIvG9UYLa/XeHPP.U/G6DpH7Z3i', 'jonatan@test.com');
