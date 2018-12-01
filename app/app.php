@@ -21,7 +21,7 @@ $container['view'] = function ($container) {
 };
 
 $container['PDOConnector'] = function($container){
-	$connector = new \Simplon\Mysql\PDOConnector(getenv('localhost'), 'root', '', 'todoapp');
+	$connector = new \Simplon\Mysql\PDOConnector('localhost', 'root', '', 'todoapp');
 
 	return $connector;
 };
