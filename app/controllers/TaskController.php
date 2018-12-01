@@ -60,7 +60,6 @@ class TaskController extends Controller implements iController
 
 		$listStore = new \App\Stores\ListsStore($this->sqlManager);
 		$list = $listStore->listFromListId($list_id);
-		$userStore = new UsersStore($this->sqlManager);
 		$task = new TaskModel();
 		$task
 			->setDescription($description)

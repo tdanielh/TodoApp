@@ -89,6 +89,8 @@ jQuery('form#createList').on('submit', function(e){
         data: data,
         success: function(data){
             jQuery('#list').prepend(data);
+            jQuery('#list .no_lists').remove();
+            $form.find('#title').val('');
         },
         error: function(data){
             $form.find('input').addClass('is-invalid');
