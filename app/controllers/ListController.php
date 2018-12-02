@@ -51,7 +51,8 @@ class ListController extends Controller implements iController
 
 		$listsStore = new \App\Stores\ListsStore($this->sqlManager);
 		$list = $listsStore->listFromListId($list_id);
-
+		if($list->getUserId() != $this->auth->user()->getId())
+			return $response->withStatus(422)->withJson(['response' => 'error', 'message' => 'You cannot delete this list']);
 		$list = $listsStore->delete(
 			(new \Simplon\Mysql\QueryBuilder\DeleteQueryBuilder())->setModel($list)->addCondition(\App\Models\ListModel::COLUMN_ID, $list->getId())
 		);

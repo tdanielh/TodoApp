@@ -1,12 +1,15 @@
+var item_id;
+var itemType;
+
 jQuery('form#createTask').on('submit', function(e){
     e.preventDefault();
     $form = $(this);
     $action = $form.attr('action');
-    $list_id = $form.data('listid');
+    list_id = $form.data('listid');
     $form.find('.error').html('');
 
     $form.find('textarea').removeClass('is-invalid');
-    data = $form.serialize()+'&list_id='+$list_id;
+    data = $form.serialize()+'&list_id='+list_id;
     jQuery.ajax({
         type: "POST",
         url: $action,
@@ -51,37 +54,49 @@ jQuery(document).on('click', '.task_check', function(e){
     })
 });
 
-$('#confirm-delete').on('click', '.btn-ok', function(e) {
-    $modalDiv = jQuery(e.delegateTarget);
-    item_id = jQuery(this).data('itemid');
-    item = jQuery(this).data('item');
-    path = jQuery(this).data('path')+item+'/';
-    jQuery.ajax({url: path, data: {item_id: item_id}, type: 'DELETE'});
-    $modalDiv.addClass('loading');
-    setTimeout(function() {
-        $modalDiv.modal('hide').removeClass('loading');
-        jQuery('#list').find('.row[data-itemid='+item_id+']').remove();
-    }, 1000);
-});
-
 jQuery('#confirm-delete').on('show.bs.modal', function(e) {
-    $container = jQuery(e.relatedTarget).closest('.row');
-    item_id = $container.data('itemid');
-    console.log(item_id);
-    item = jQuery(e.relatedTarget).data('item');
-    jQuery('.btn-ok', this)
-        .attr('data-itemid', item_id)
-        .attr('data-item', item);
-    jQuery('.item', this).html(item);
+    $relatedTarget = jQuery(e.relatedTarget);
+    item_id = $relatedTarget.closest('.row').data('itemid');
+    itemType = $relatedTarget.data('item');
+    jQuery('.item', this).html(itemType);
 
+}).on('hidden.bs.modal', function (e) {
+    $modal = jQuery(e.target);
+
+    $modal.find('.error').html('');
+    $modal.find('.btn-ok').removeClass('disabled');
 });
 
+
+$('#confirm-delete').on('click', '.btn-ok', function(e) {
+    e.preventDefault();
+    $modalDiv = jQuery(e.delegateTarget);
+    $target = jQuery(e.target);
+    path = $target.data('path')+itemType+'/';
+    $target.addClass('disabled');
+    jQuery.ajax({
+        type: 'DELETE',
+        url: path,
+        data: {item_id: item_id},
+        success: function(){
+            jQuery('#list').find('.row[data-itemid='+item_id+']').remove();
+            setTimeout(function() {
+                $modalDiv.modal('hide');
+                $target.removeClass('disabled');
+            }, 500);
+        },
+        error: function(data){
+            $modalDiv.find('.error').html(data.responseJSON.message)
+        }
+    });
+
+});
 
 jQuery('form#createList').on('submit', function(e){
     $form = jQuery(this);
     action = $form.attr('action');
-    $user_id = $form.data('userid');
-    data = $form.serialize()+'&user_id='+$user_id;
+    user_id = $form.data('userid');
+    data = $form.serialize()+'&user_id='+user_id;
     e.preventDefault();
     jQuery.ajax({
         type: "POST",

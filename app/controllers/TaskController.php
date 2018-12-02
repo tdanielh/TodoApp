@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\TaskModel;
-use App\Stores\UsersStore;
+use App\Stores\ListsStore;
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use App\Interfaces\Controller as iController;
@@ -78,11 +78,17 @@ class TaskController extends Controller implements iController
 
 	public function delete(Request $request, Response $response)
 	{
+		$listStore = new ListsStore($this->sqlManager);
 		$post = $request->getParsedBody();
 		$task_id = $post['item_id'];
 
 		$taskStore = new \App\Stores\TasksStore($this->sqlManager);
 		$task = $taskStore->taskFromId($task_id);
+
+		$list = $listStore->listFromListId($task->getListId());
+
+		if($list->getUserId() != $this->auth->user()->getId())
+			return $response->withStatus(422)->withJson(['response' => 'error', 'message' => 'You cannot delete this task']);
 
 		$task = $taskStore->delete(
 			(new \Simplon\Mysql\QueryBuilder\DeleteQueryBuilder())->setModel($task)->addCondition(\App\Models\TaskModel::COLUMN_ID, $task->getId())
