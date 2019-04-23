@@ -18,7 +18,7 @@ class Auth
 	}
 	public function user(){
 		$userStore = new UsersStore($this->container->sqlManager);
-		$user = $userStore->userById($_SESSION['user']);
+		$user = $userStore->byId($_SESSION['user']);
 		return $user;
 	}
 
@@ -32,7 +32,7 @@ class Auth
 
 	public function attempt($email, $password){
 		$userStore = new UsersStore($this->container->sqlManager);
-		$user = $userStore->userByEmail($email);
+		$user = $userStore->byEmail($email);
 
 		if(!$user){
 			return false;

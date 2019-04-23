@@ -8,11 +8,16 @@
 <!-- End Google Analytics -->
     {% block head %}
         <title>{% block title %}Todo App{% endblock %}</title>
+        <script>
+            var base_url = '{{ base_url() }}';
+        </script>
         <script src="{{ base_url() }}/node_modules/jquery/dist/jquery.js"></script>
     {% endblock %}
     {% block style %}
         <link rel="stylesheet" href="{{ base_url() }}/node_modules/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="{{ base_url() }}/node_modules/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="{{ base_url() }}/styles/main.css">
+        <link rel="stylesheet" href="{{ base_url() }}/node_modules/select2/dist/css/select2.css">
     <style>
 
     </style>
@@ -31,6 +36,7 @@
             </ul>
             <ul class="nav navbar-nav ml-auto mr-0 mt-2 mt-lg-0">
                 <li class="nav-item align-bottom">
+                    <span>{{ auth.user.name }}</span>
                     <a class="nav-link" href="#" data-path="{{ path_for('logout') }}" aria-expanded="false" id="logout">
                         Logout
                     </a>
@@ -48,7 +54,8 @@
     </script>
     <script src="{{ base_url() }}/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="{{ base_url() }}/scripts/main.js"></script>
-    <link rel="stylesheet" href="{{ base_url() }}/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="{{ base_url() }}/node_modules/select2/dist/js/select2.js"></script>
+
 {% endblock %}
 </body>
 </html>

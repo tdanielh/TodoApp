@@ -34,13 +34,13 @@ class TasksStore extends CrudStore
 		return new TaskModel();
 	}
 
-	public function tasksFromListId($id){
+	public function byListId($list_id){
 		$tasksQuery = 'SELECT *
 				  FROM '. $this->getTableName().'
-				  WHERE '. $this->getTableName().'.'.TaskModel::COLUMN_LIST_ID.' = :id
+				  WHERE '. $this->getTableName().'.'.TaskModel::COLUMN_LIST_ID.' = :list_id
 				  ORDER BY '.$this->getTableName().'.'.TaskModel::COLUMN_ID.' DESC';
 		$tasks = new Collection();
-		$taskresults = $this->getCrudManager()->getMysql()->fetchRowMany($tasksQuery, ['id' => $id]);
+		$taskresults = $this->getCrudManager()->getMysql()->fetchRowMany($tasksQuery, ['list_id' => $list_id]);
 		if($taskresults){
 			foreach($taskresults as $taskresult){
 				$task = (new TaskModel())->fromArray($taskresult);

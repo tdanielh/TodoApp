@@ -1,11 +1,21 @@
-<div class="container">
-	<form action="{{ path_for('list.create') }}" method="post" id="createList" data-userid="{{ user_id }}">
-		<div class="form-group">
-			<input type="text" placeholder="Todo list title" class=" form-control" name="title" id="title">
-		</div>
-		<div class="form-group">
-			<input type="submit" value="new list" class="col-2 btn">
-			<span class="error float-right text-danger"></span>
-		</div>
-	</form>
+<div class="container newList">
+	<fieldset>
+		<legend>New list</legend>
+		<form action="{{ path_for('list.create') }}" method="post" id="createList" data-userid="{{ user.id }}">
+			<div class="form-group">
+				<input type="text" placeholder="Todo list title" class=" form-control" name="title" id="title">
+			</div>
+			<div class="form-group">
+				<input type="submit" value="new list" class="col-2 btn float-left">
+				<span class="float-left form-check">
+					<input type="checkbox" name="gotolist" id="gotoList" class="form-check-input ">
+					<label for="gotoList">
+						Go to list
+					</label>
+				</span>
+				<span class="error float-right text-danger"></span>
+			</div>
+		</form>
+	</fieldset>
+	<hr />
 </div>

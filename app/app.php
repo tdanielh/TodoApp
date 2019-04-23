@@ -43,6 +43,10 @@ $container['TaskController'] = function($container){
 	return new \App\Controllers\TaskController($container);
 };
 
+$container['UserController'] = function($container){
+	return new \App\Controllers\UserController($container);
+};
+
 $container['auth'] = function ($container) {
 	return new App\Auth\Auth($container);
 };

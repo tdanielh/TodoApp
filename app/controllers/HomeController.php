@@ -13,13 +13,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 class HomeController extends Controller
 {
-	public function index(Request $request, Response $response){
+	public function index(Request $request, Response $response, $search = []){
 		if($this->auth->check()){
 			$store = new \App\Stores\ListsStore($this->sqlManager);
 			$user = $this->auth->user();
-			$lists = $store->listsFromUserId($user->getId());
-
-			return $this->view->render($response, 'lists.html.twig', ['lists'=>$lists]);
+			$lists = $store->listsByUserId($user->getId());
+			return $this->view->render($response, 'front.html.twig', ['lists'=>$lists, 'user'=>$user]);
 		}
 		else
 			return $this->view->render($response, 'home.html.twig');

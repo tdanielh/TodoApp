@@ -1,0 +1,28 @@
+<div class="modal fade" id="shareList" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="deleteLabel">Share <span class="listName"></span></h4>
+			</div>
+			<div class="modal-body">
+				<div>
+					<h3>Share with</h3>
+					<select name="users" id="searchUsers">
+						<option value=""></option>
+					</select>
+				</div>
+				<div>
+					<h3>Shared with</h3>
+					<div id="sharedWith">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<span class="error text-danger"></span>
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-danger btn-ok" data-path="{{ path_for('index') }}">Delete</button>
+			</div>
+		</div>
+	</div>
+</div>

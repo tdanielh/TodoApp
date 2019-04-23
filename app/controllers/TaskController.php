@@ -4,12 +4,14 @@ namespace App\Controllers;
 
 use App\Models\TaskModel;
 use App\Stores\ListsStore;
+use App\traits\Shareable;
 use Psr\Http\Message\RequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use App\Interfaces\Controller as iController;
 
 class TaskController extends Controller implements iController
 {
+
 	public function __construct($container)
 	{
 		parent::__construct($container);
@@ -32,17 +34,19 @@ class TaskController extends Controller implements iController
 		$usersStore = new \App\Stores\UsersStore($this->sqlManager);
 		$listsStore = new \App\Stores\ListsStore($this->sqlManager);
 		$tasksStore = new \App\Stores\TasksStore($this->sqlManager);
+		$usersStore = new \App\Stores\UsersStore($this->sqlManager);
+		$users = $usersStore->byListId($listId);
+		$list = $listsStore->byListId($listId);
 
-		$list = $listsStore->listFromListId($listId);
-		if(empty($list) || ($this->auth->user()->getId() != $list->getUserId())){
+		if(empty($list) || ($this->auth->user()->getId() != $list->getUserId() && !$users->has($this->auth->user()->getId()))){
 			return $this->view->render($response, 'notAllowed.html.twig');
 		}
 		if(empty($list)){
 			return $this->view->render($response, 'list/notFound.html.twig');
 		}
-		$user = $usersStore->userById($list->getUserId());
+		$user = $usersStore->byId($list->getUserId());
 
-		$tasks = $tasksStore->tasksFromListId($list->getId());
+		$tasks = $tasksStore->byListId($list->getId());
 
 		return $this->view->render($response, 'tasks.html.twig', ['list' => $list, 'user' => $user, 'tasks' => $tasks]);
 	}
@@ -59,7 +63,7 @@ class TaskController extends Controller implements iController
 			return $response->withStatus(422)->withJson(['response' => 'error', 'message' => 'Task cannot be empty']);
 
 		$listStore = new \App\Stores\ListsStore($this->sqlManager);
-		$list = $listStore->listFromListId($list_id);
+		$list = $listStore->byListId($list_id);
 		$task = new TaskModel();
 		$task
 			->setDescription($description)
@@ -85,7 +89,7 @@ class TaskController extends Controller implements iController
 		$taskStore = new \App\Stores\TasksStore($this->sqlManager);
 		$task = $taskStore->taskFromId($task_id);
 
-		$list = $listStore->listFromListId($task->getListId());
+		$list = $listStore->byListId($task->getListId());
 
 		if($list->getUserId() != $this->auth->user()->getId())
 			return $response->withStatus(422)->withJson(['response' => 'error', 'message' => 'You cannot delete this task']);

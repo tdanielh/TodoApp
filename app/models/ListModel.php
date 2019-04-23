@@ -75,6 +75,4 @@ class ListModel extends CrudModel
 		$this->user_id = $user_id;
 		return $this;
 	}
-
-
 }

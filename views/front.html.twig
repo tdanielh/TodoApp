@@ -12,21 +12,20 @@
 {% endblock %}
 {% block content %}
 	{% include 'modals/confirm-delete.html.twig' %}
+	{% include 'modals/shareList.html.twig' %}
 	<div class="container">
 		<div class="row ">
-			<span class="h1">{{ list.name }}</span>
+			<span class="h1">Lists</span>
 		</div>
 		<div class="row">
-			{% include 'task/new.html.twig' %}
+			{% include 'list/new.html.twig' %}
 		</div>
-		<div id="tasks">
-			{% if tasks is empty %}
-				{% include 'task/empty.html.twig' %}
-			{% else %}
-				{% for task in tasks %}
-					{% include 'task/task.html.twig' %}
-				{% endfor %}
-			{% endif %}
+		<div class="row">
+			{% include 'list/showOptions.html.twig' %}
+		</div>
+
+		<div id="lists">
+			
 		</div>
 	</div>
 {% endblock %}

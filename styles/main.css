@@ -1,0 +1,27 @@
+.gotolist {
+    padding: 0 15px;
+}
+
+.shareable {
+    cursor: pointer;
+}
+
+#list .card-body {
+    padding: 0;
+}
+
+.card-body a {
+    padding: 1.25rem;
+    display:block;
+    width: 100%;
+}
+
+.loading{
+    background-color: gray;
+    height: 100%;
+    min-height: 150px;
+}
+
+.clickable {
+    cursor: pointer;
+}
