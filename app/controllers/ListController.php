@@ -65,7 +65,10 @@ class ListController extends Controller implements iController
 	public function list(Request $request, Response $response){
 		$store = new \App\Stores\ListsStore($this->sqlManager);
 		$user = $this->auth->user();
-		$lists = $store->listsByUserId($user->getId());
+
+		$selected = $request->getParam('selected');
+
+		$lists = $store->listsByUserId($user->getId(),$selected);
 		return $this->view->render($response, 'lists.html.twig', ['lists'=>$lists]);
 	}
 

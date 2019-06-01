@@ -1,11 +1,24 @@
 var item_id, item_name,itemType;
-jQuery('#lists').on('update',function(){
+jQuery('#lists').on('update',function(e, par){
     var $this = jQuery(this);
+    console.log('par ', par);
+    selected = [];
+    if(typeof par != 'undefined'){
 
+        jQuery.each(par.checked, function(index, value){
+            console.log(value.id);
+            selected.push(value.id);
+        })
+
+        console.log(selected);
+    }
     $this.addClass('loading');
     jQuery.ajax({
         type: "GET",
         url: base_url+'/list/lists',
+        data: {
+            selected: selected
+        },
         success: function(data){
             $this
                 .html(data)
@@ -196,10 +209,10 @@ jQuery(function(){
         });
     });
 
-    jQuery('form#searchLists').on('change', 'input#private, input#sharedByMe, input#sharedWithMe',function(e){
-        console.log(e.target.id);
-        var path = jQuery(this).data('path');
-        jQuery('#list').trigger('update', {search: e.target.id})
+    jQuery('form#searchLists').on('change', 'input#private, input#shared',function(e){
+        var $checked = jQuery('form#searchLists :checked');
+        console.log('this: ', $checked);
+        jQuery('#lists').trigger('update', {checked: $checked})
     });
 
     $('#searchUsers').select2({

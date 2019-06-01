@@ -1,20 +1,18 @@
-<div class="row py-2" data-itemid="{{ list.id }}"  data-waiting="fa-spinner fa-pulse" data-listname="{{ list.name }}">
-	<div class="col-11 justify-content-between">
+<div class="row py-2" data-itemid="{{ list.list.id }}"  data-waiting="fa-spinner fa-pulse" data-listname="{{ list.list.name }}">
+	<div class="col-12 justify-content-between">
 		<div class="card">
 			<div class="card-body">
-				<a href="{{ path_for('list.id', {'list_id': list.id}) }}">{{ list.name }}</a>
+				<a href="{{ path_for('list.id', {'list_id': list.list.id}) }}">{{ list.list.name }}</a>
 			</div>
 		</div>
 	</div>
-	{% if list.getUserId() == auth.user.getId() %}
-	<div class="col-1 align-self-center">
-		<i class="fa fa-trash fa-2x" data-toggle="modal" data-target="#confirm-delete" data-path="{{ path_for('list.delete') }}" data-item="list"></i>
-	</div>
-	{% endif %}
 	<div class="col-12">
-		<div class="float-left">- {{ list.getUserId() }}</div>
-		<div class="float-right">
-			<i class="fa fa-share float-right shareable" data-toggle="modal" data-target="#shareList" data-path="/main/list/" data-item="list"></i>
+		<div class="float-left">- {{ list.owner.name }}</div>
+		<div class="float-right text-right">
+			{% if list.list.getUserId() == auth.user.getId() %}
+			<i class="fa fa-trash" data-toggle="modal" data-target="#confirm-delete" data-path="{{ path_for('list.delete') }}" data-item="list"></i>
+			{% endif %}
+			<i class="fa fa-share-alt shareable" data-toggle="modal" data-target="#shareList" data-path="/main/list/" data-item="list"></i> {{ list.shares }}
 		</div>
 	</div>
 </div>

@@ -13,7 +13,6 @@ $app->group('/list', function() use ($app, $container){
 		$app->get('/sharedwith', 'ListController:sharedWith')->setName('list.sharedWith');
 		$app->get('/share/{user_id}', 'ListController:share')->setName('list.share');
 		$app->get('/unshare/{user_id}', 'ListController:unshare')->setName('list.unshare');
-
 	});
 });
 
